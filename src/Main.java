@@ -1,21 +1,15 @@
-
 import java.util.Scanner;
-
-
-
-import java.util.Scanner;
-
 
 public class Main {
     private static final int MAX_CAPACITY = 10;
     private PQueue<Order> orderQueue;
-    private Cooking cookingView;
+    private cookingClass cookingView;
     private Scanner scanner;
     private boolean isRunning;
 
     public Main() {
         this.orderQueue = new PQueue<>();
-        this.cookingView = new Cooking();
+        this.cookingView = new cookingClass();
         this.scanner = new Scanner(System.in);
         this.isRunning = true;
     }
@@ -45,7 +39,8 @@ public class Main {
                     handleServeOrder();
                     break;
                 case "4":
-                    cookingView.checkStatus();
+                    boolean isBusy = cookingView.checkStatus();
+                    System.out.println("Kitchen Station Status: " + (isBusy ? "BUSY" : "READY"));
                     System.out.println("Pending orders in queue: " + orderQueue.size());
                     break;
                 case "5":
