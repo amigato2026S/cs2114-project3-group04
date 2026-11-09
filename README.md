@@ -33,3 +33,5 @@ A lot of the essentials are put down, so instead of Armaan and Nick only working
 | PQueueTest | Ami | Wrote test class for PQueue | Asked GenAI about necessary test cases |
 | Main | Andrew | Wrote core application loop, menu routing, and input validation methods handling bad input cases  | Asked GenAI for structuring controller flow and handling bad input cases |
 | Cooking | Nick | Wrote cooking class and cooking test class | AI used to make class and test class |
+| Order | Armaan | Added the Order class that routed to the project.| No AI used for this one |
+
