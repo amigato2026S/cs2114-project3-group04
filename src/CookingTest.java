@@ -5,7 +5,7 @@ import java.time.Duration;
 
 public class CookingTest {
 
-    private Cooking cooking;
+    private cookingClass cooking;
     private PQueue queue;
     private Order highPriorityOrder;
     private Order regularOrder;
@@ -45,7 +45,7 @@ public class CookingTest {
 
     @BeforeEach
     public void setUp() {
-        cooking = new Cooking();
+        cooking = new cookingClass();
         queue = new PQueue();
         highPriorityOrder = new TestOrder("VIP Burger", true, Duration.ofMinutes(5));
         regularOrder = new TestOrder("Fries", false, Duration.ofMinutes(10));
