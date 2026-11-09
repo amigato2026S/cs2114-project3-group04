@@ -11,7 +11,7 @@ None of the models rely on Main, and test classes work individually as intended.
 *What happened to your unknowns?*  
 We figured out the time, we figured out most(?) of the cooking side of the game.
 *What doesn't work yet?*  
-I think the Main class isn't fully coherent yet just because some of the model classes need fixing and polishing. 
+I think the Main class isn't fully coherent yet just because some of the model classes need fixing and polishing. We had some issues with github itself so some files are botched and need fixing.
 
 
 **Next Steps**  
@@ -32,3 +32,6 @@ A lot of the essentials are put down, so instead of Armaan and Nick only working
 | PQueue | Ami | Wrote essential methods for PQueue | No AI used for this one |
 | PQueueTest | Ami | Wrote test class for PQueue | Asked GenAI about necessary test cases |
 | Main | Andrew | Wrote core application loop, menu routing, and input validation methods handling bad input cases  | Asked GenAI for structuring controller flow and handling bad input cases |
+| Cooking | Nick | Wrote cooking class and cooking test class | AI used to make class and test class |
+| Order | Armaan | Added the Order class that routed to the project.| No AI used for this one |
+
