@@ -1,12 +1,9 @@
 package burgers;
+
 import java.util.Scanner;
 
-/**
- * Controller class mediating between the Model (PQueue, Order) and View (Cooking).
- * Handles the main application loop, catches bad inputs, and routes requests.
- */
 public class Main {
-    private static final int MAX_CAPACITY = 5;
+    private static final int MAX_CAPACITY = 10;
     private PQueue<Order> orderQueue;
     private Cooking cookingView;
     private Scanner scanner;
@@ -19,14 +16,11 @@ public class Main {
         this.isRunning = true;
     }
 
-    /**
-     * Runs the core application loop.
-     */
     public void start() {
         System.out.println("=== Welcome to Burgeria Simulation ===");
 
         while (isRunning) {
-            System.out.println("\n------------------------------------");
+            System.out.println("------------------------------------");
             System.out.println("1. Add Regular Order");
             System.out.println("2. Add Priority Order");
             System.out.println("3. Cook / Serve Next Order");
@@ -92,7 +86,12 @@ public class Main {
 
         Order newOrder = new Order();
         newOrder.addOrder(customerName.trim(), recipe.trim());
-        orderQueue.offer(newOrder);
+        boolean enqueued = orderQueue.offer(newOrder);
+
+        if (!enqueued) {
+            System.out.println("Kitchen is full! Please wait before adding more orders.");
+            return false;
+        }
 
         System.out.println("Order added successfully for " + customerName.trim() + " (" + recipe.trim() + ").");
         return true;
@@ -115,7 +114,12 @@ public class Main {
 
         Order priorityOrder = new Order();
         priorityOrder.addOrder(customerName.trim(), recipe.trim());
-        orderQueue.offer(priorityOrder);
+        boolean enqueued = orderQueue.offer(priorityOrder);
+
+        if (!enqueued) {
+            System.out.println("Kitchen is full! Please wait before adding more orders.");
+            return;
+        }
 
         System.out.println("[PRIORITY] Rush order added for " + customerName.trim() + "!");
     }
