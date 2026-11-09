@@ -20,4 +20,4 @@ Hokie Burgeria - A fast food ordering kiosk using queues
 | :--- | :--- | :--- | :--- |
 | PQueue | Ami | Wrote essential methods for PQueue | No AI used for this one |
 | PQueueTest | Ami | Wrote test class for PQueue | Asked GenAI about necessary test cases |
-| Main | Andrew | Wrote corea application loop, menu routing, and input validation methods handling bad input cases  | Asked GenAI for structuring controller flow and handling bad input cases |
+| Main | Andrew | Wrote core application loop, menu routing, and input validation methods handling bad input cases  | Asked GenAI for structuring controller flow and handling bad input cases |
