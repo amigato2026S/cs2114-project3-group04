@@ -1,131 +1,128 @@
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.time.Duration;
 
-public class CookingTest {
+// -------------------------------------------------------------------------
+/**
+ *  Write a one-sentence summary of your class here.
+ *  Follow it with additional details about its purpose, what abstraction
+ *  it represents, and how to use it.
+ * 
+ *  @author Nicholas Song
+ *  @version Nov 9, 2026
+ */
+class CookingTest
+{
+    //~ Fields ................................................................
 
-    private cookingClass cooking;
-    private PQueue queue;
-    private Order highPriorityOrder;
-    private Order regularOrder;
+    private Cooking cooking;
+    private PQueue<Order> queue;
+    private Order firstOrder;
+    private Order secondOrder;
 
+
+    //~ Constructors ..........................................................
+
+    // ----------------------------------------------------------
     /**
-     * Simple stub implementation of the Order interface for testing.
-     * You can replace TestOrder with your concrete Order class if preferred.
+     * Sets up the test fixture before each test method.
+     * 
+     * @throws java.lang.Exception
      */
-    private static class TestOrder implements Order {
-        private final String name;
-        private final boolean priority;
-        private final Duration timeLeft;
-
-        public TestOrder(String name, boolean priority, Duration timeLeft) {
-            this.name = name;
-            this.priority = priority;
-            this.timeLeft = timeLeft;
-        }
-
-        @Override
-        public boolean isPriority() {
-            return this.priority;
-        }
-
-        public Duration getTimeLeft() {
-            return this.timeLeft;
-        }
-
-        @Override
-        public int compareTo(Order other) {
-            if (this.isPriority() != other.isPriority()) {
-                return this.isPriority() ? -1 : 1;
-            }
-            return 0;
-        }
-    }
-
     @BeforeEach
-    public void setUp() {
-        cooking = new cookingClass();
-        queue = new PQueue();
-        highPriorityOrder = new TestOrder("VIP Burger", true, Duration.ofMinutes(5));
-        regularOrder = new TestOrder("Fries", false, Duration.ofMinutes(10));
+    void setUp()
+        throws Exception
+    {
+        cooking = new Cooking();
+        queue = new PQueue<>();
+
+        firstOrder = new FoodOrder();
+        firstOrder.addOrder("Alice", "Cheeseburger");
+
+        secondOrder = new FoodOrder();
+        secondOrder.addOrder("Bob", "Deluxe Burger");
     }
 
-    // -------------------------------------------------------------------------
-    // cookNextOrder(PQueue queue) Tests
-    // -------------------------------------------------------------------------
 
+    //~Public  Methods ........................................................
+
+    // ----------------------------------------------------------
+    /**
+     * Test method for {@link Cooking#cookNextOrder(PQueue)}.
+     * Verifies that currentOrder matches the polled item from the queue
+     * and that isBusy updates to true.
+     */
     @Test
-    public void testCookNextOrderSetsCurrentOrderAndBusyToTrue() {
-        // Replace .add() if your PQueue uses insert(), enqueue(), or offer()
-        queue.add(regularOrder);
-        queue.add(highPriorityOrder);
+    void testCookNextOrder()
+    {
+        queue.offer(firstOrder);
+        queue.offer(secondOrder);
 
+        Order expectedOrder = queue.peek();
         cooking.cookNextOrder(queue);
 
-        // 1. Make sure currentOrder correctly matches the polled item from the queue
-        assertEquals(highPriorityOrder, cooking.getCurrentOrder(),
-                "currentOrder should match the highest-priority polled item from the queue.");
-
-        // 2. Make sure isBusy updates to true
-        assertTrue(cooking.checkStatus(),
-                "isBusy should update to true after pulling an order.");
+        assertEquals(expectedOrder, cooking.getCurrentOrder());
+        assertTrue(cooking.checkStatus());
+        assertEquals(1, queue.size());
     }
 
+
+    // ----------------------------------------------------------
+    /**
+     * Test method for {@link Cooking#cookNextOrder(PQueue)}.
+     * Verifies correct handling when the passed queue is empty or null.
+     */
     @Test
-    public void testCookNextOrderWithEmptyQueue() {
-        // 3. Correct handling when the passed queue is empty
+    void testCookNextOrderEmptyQueue()
+    {
         cooking.cookNextOrder(queue);
 
-        assertNull(cooking.getCurrentOrder(),
-                "currentOrder should remain null when cooking from an empty queue.");
-        assertFalse(cooking.checkStatus(),
-                "isBusy should remain false when the passed queue is empty.");
+        assertNull(cooking.getCurrentOrder());
+        assertFalse(cooking.checkStatus());
+
+        cooking.cookNextOrder(null);
+
+        assertNull(cooking.getCurrentOrder());
+        assertFalse(cooking.checkStatus());
     }
 
-    // -------------------------------------------------------------------------
-    // finishOrder() Tests
-    // -------------------------------------------------------------------------
 
+    // ----------------------------------------------------------
+    /**
+     * Test method for {@link Cooking#finishOrder()}.
+     * Verifies that the returned order matches currentOrder, currentOrder
+     * is set to null afterward, and isBusy updates to false.
+     */
     @Test
-    public void testFinishOrderReturnsOrderAndResetsState() {
-        queue.add(highPriorityOrder);
+    void testFinishOrder()
+    {
+        queue.offer(firstOrder);
         cooking.cookNextOrder(queue);
 
         Order finished = cooking.finishOrder();
 
-        // 1. Make sure the returned order matches the currentOrder
-        assertEquals(highPriorityOrder, finished,
-                "finishOrder() should return the order that was being cooked.");
-
-        // 2. Make sure currentOrder is set to null afterward
-        assertNull(cooking.getCurrentOrder(),
-                "currentOrder should be set to null after finishing the order.");
-
-        // 3. Make sure isBusy updates to false
-        assertFalse(cooking.checkStatus(),
-                "isBusy should update to false after finishing the order.");
+        assertEquals(firstOrder, finished);
+        assertNull(cooking.getCurrentOrder());
+        assertFalse(cooking.checkStatus());
     }
 
-    // -------------------------------------------------------------------------
-    // checkStatus() Tests
-    // -------------------------------------------------------------------------
 
+    // ----------------------------------------------------------
+    /**
+     * Test method for {@link Cooking#checkStatus()}.
+     * Checks both true and false cases for the kitchen status.
+     */
     @Test
-    public void testCheckStatusTrueAndFalseCases() {
-        // False case: Initially not busy
-        assertFalse(cooking.checkStatus(),
-                "checkStatus() should return false when no order is active.");
+    void testCheckStatus()
+    {
+        assertFalse(cooking.checkStatus());
 
-        // True case: Busy while cooking an order
-        queue.add(regularOrder);
+        queue.offer(firstOrder);
         cooking.cookNextOrder(queue);
-        assertTrue(cooking.checkStatus(),
-                "checkStatus() should return true while an order is being cooked.");
+        assertTrue(cooking.checkStatus());
 
-        // False case: Back to false after finishing the order
         cooking.finishOrder();
-        assertFalse(cooking.checkStatus(),
-                "checkStatus() should return false after the current order is finished.");
+        assertFalse(cooking.checkStatus());
     }
+
 }
