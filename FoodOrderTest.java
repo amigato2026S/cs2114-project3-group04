@@ -1,4 +1,3 @@
-package burgers;
 // Virginia Tech Honor Code Pledge:
 
 //
@@ -12,7 +11,6 @@ package burgers;
 // resources and staff.
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

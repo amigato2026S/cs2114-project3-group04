@@ -1,4 +1,3 @@
-package src.burgers;
 public class Main {
     //~ Fields ................................................................
 

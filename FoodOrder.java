@@ -1,4 +1,3 @@
-package burgers;
 // Virginia Tech Honor Code Pledge:
 
 //
