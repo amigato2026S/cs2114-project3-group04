@@ -83,7 +83,7 @@ public class Main {
             return false;
         }
 
-        Order newOrder = new Order();
+        FoodOrder newOrder = new FoodOrder();
         newOrder.addOrder(customerName.trim(), recipe.trim());
         boolean enqueued = orderQueue.offer(newOrder);
 
@@ -111,7 +111,7 @@ public class Main {
             return;
         }
 
-        Order priorityOrder = new Order();
+        FoodOrder priorityOrder = new FoodOrder();
         priorityOrder.addOrder(customerName.trim(), recipe.trim());
         boolean enqueued = orderQueue.offer(priorityOrder);
 
