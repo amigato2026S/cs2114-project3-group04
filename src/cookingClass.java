@@ -1,4 +1,4 @@
-public class Cooking {
+public class cookingClass {
 
     private Order currentOrder;
     private boolean isBusy;
@@ -6,7 +6,7 @@ public class Cooking {
     /**
      * Initializes the Cooking view with no active order and isBusy set to false.
      */
-    public Cooking() {
+    public cookingClass() {
         this.currentOrder = null;
         this.isBusy = false;
     }
@@ -18,7 +18,7 @@ public class Cooking {
      *
      * @param queue the priority queue of orders
      */
-    public void cookNextOrder(PQueue queue) {
+    public void cookNextOrder(PQueue<Order> queue) {
         if (queue == null) {
             return;
         }
