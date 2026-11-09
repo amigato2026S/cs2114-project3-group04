@@ -15,7 +15,7 @@ class CookingTest
 {
     //~ Fields ................................................................
 
-    private Cooking cooking;
+    private cookingClass cooking;
     private PQueue<Order> queue;
     private Order firstOrder;
     private Order secondOrder;
@@ -33,7 +33,7 @@ class CookingTest
     void setUp()
         throws Exception
     {
-        cooking = new Cooking();
+        cooking = new cookingClass();
         queue = new PQueue<>();
 
         firstOrder = new FoodOrder();
