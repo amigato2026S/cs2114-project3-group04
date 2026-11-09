@@ -11,7 +11,7 @@ None of the models rely on Main, and test classes work individually as intended.
 *What happened to your unknowns?*  
 We figured out the time, we figured out most(?) of the cooking side of the game.
 *What doesn't work yet?*  
-I think the Main class isn't fully coherent yet just because some of the model classes need fixing and polishing. 
+I think the Main class isn't fully coherent yet just because some of the model classes need fixing and polishing. We had some issues with github itself so some files are botched and need fixing.
 
 
 **Next Steps**  
