@@ -20,7 +20,7 @@ Fix FoodOrder.compareTo() to sort same-priority order in FIFO order, add timed c
 *Which stretch goals are you committing to, and which are you dropping?*
 We are committing to FIFO priority tie-breaking and live queue/wait time display, while dropping multi station cooking and GUI features to keep our console app stable.
 *What will your 3-minute demo show?*
-We will run all JUnit tests(0:00~0:30), test regular orders and bad inputs in Main(0:30~1:15), add a Priority Order and inspect the live queue via Kitchen Status(1:15~2:15), and serve orders to show priority ordering(2:15~3:00).
+We will run all JUnit tests(0:00-0:30), test regular orders and bad inputs in Main(0:30-1:15), add a Priority Order and inspect the live queue via Kitchen Status(1:15-2:15), and serve orders to show priority ordering(2:15-3:00).
 *Who does what?*
 Andrew handles Main class, Armaan fixes FoodORder.compareTo(), Nick updates cookingClass, and Amihandles 3-minute demo.
 
