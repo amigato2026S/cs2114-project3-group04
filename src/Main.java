@@ -41,7 +41,11 @@ public class Main {
                 case "4":
                     boolean isBusy = cookingView.checkStatus();
                     System.out.println("Kitchen Station Status: " + (isBusy ? "BUSY" : "READY"));
+                    if (isBusy && cookingView.getCurrentOrder() != null) {
+                        System.out.println("Currently Cooking: " + cookingView.getCurrentOrder().toString());
+                    }
                     System.out.println("Pending orders in queue: " + orderQueue.size());
+                    System.out.println(orderQueue.toString());
                     break;
                 case "5":
                     System.out.println("Exiting Burgeria. Thanks for playing!");
@@ -68,6 +72,13 @@ public class Main {
         }
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Place a description of your method here.
+     * @param customerName
+     * @param recipe
+     * @return
+     */
     public boolean handleAddOrder(String customerName, String recipe) {
         if (customerName == null || customerName.trim().isEmpty()) {
             System.out.println("Please enter a valid customer name.");
@@ -83,8 +94,7 @@ public class Main {
             return false;
         }
 
-        FoodOrder newOrder = new FoodOrder();
-        newOrder.addOrder(customerName.trim(), recipe.trim());
+        FoodOrder newOrder = new FoodOrder(customerName.trim(), recipe.trim(), false);
         boolean enqueued = orderQueue.offer(newOrder);
 
         if (!enqueued) {
@@ -111,8 +121,7 @@ public class Main {
             return;
         }
 
-        FoodOrder priorityOrder = new FoodOrder();
-        priorityOrder.addOrder(customerName.trim(), recipe.trim());
+        FoodOrder priorityOrder = new FoodOrder(customerName.trim(), recipe.trim(), true);
         boolean enqueued = orderQueue.offer(priorityOrder);
 
         if (!enqueued) {
@@ -129,20 +138,16 @@ public class Main {
             return;
         }
 
-        Order nextOrder = orderQueue.peek();
-
-        if (nextOrder == null) {
-            System.out.println("This order is not at the front of the line. Work on current order.");
-            return;
-        }
-
         cookingView.cookNextOrder(orderQueue);
         Order finished = cookingView.finishOrder();
+
         if (finished != null) {
             finished.serveOrder();
+            long seconds = finished.getTime().toSeconds();
+            System.out.println("Served: " + finished.getRecipe() + " for "
+                + finished.getCustomerName() + " (Priority: " + finished.isPriority()
+                + ", Wait time: " + seconds + "s)");
         }
-
-        System.out.println("Order served and completed successfully.");
     }
 
     public static void main(String[] args) {

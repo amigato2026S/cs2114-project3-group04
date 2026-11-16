@@ -70,5 +70,23 @@ public class PQueue<E extends Comparable<E>>
     {
         list.clear();
     }
-
+    
+    @Override
+    public String toString()
+    {
+        if (list.isEmpty())
+        {
+            return "  (No pending orders)";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.size(); i++)
+        {
+            sb.append("  ").append(i + 1).append(". ").append(list.get(i).toString());
+            if (i < list.size() - 1)
+            {
+                sb.append("\n");
+            }
+        }
+        return sb.toString();
+    }
 }
