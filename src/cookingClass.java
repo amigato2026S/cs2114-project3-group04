@@ -20,7 +20,7 @@ public class cookingClass
 
     // ----------------------------------------------------------
     /**
-     * Create a new Cooking object with no active order and isBusy set to false.
+     * Create a new cookingClass object with no active order and isBusy set to false.
      */
     public cookingClass()
     {
@@ -115,7 +115,7 @@ public class cookingClass
             System.out.println("1. Check Kitchen Status");
             System.out.println("2. Cook Next Order");
             System.out.println("3. Finish Current Order");
-            System.out.println("4. Add Custom Rush Order");
+            System.out.println("4. Add Custom Order");
             System.out.println("5. Exit Console");
             System.out.print("Enter choice (1-5): ");
 
@@ -134,7 +134,7 @@ public class cookingClass
                 case 1:
                     if (this.isBusy)
                     {
-                        System.out.println("Status: BUSY. Currently cooking: " + this.currentOrder);
+                        System.out.println("Status: BUSY. Currently cooking for: " + this.currentOrder.getCustomerName());
                     }
                     else
                     {
@@ -145,7 +145,7 @@ public class cookingClass
                 case 2:
                     if (this.isBusy)
                     {
-                        System.out.println("Error: Kitchen is currently busy finishing an order!");
+                        System.out.println("Error: Kitchen is currently busy!");
                     }
                     else if (queue == null || queue.isEmpty())
                     {
@@ -154,7 +154,7 @@ public class cookingClass
                     else
                     {
                         cookNextOrder(queue);
-                        System.out.println("Started cooking: " + this.currentOrder);
+                        System.out.println("Started cooking order for: " + this.currentOrder.getCustomerName());
                     }
                     break;
 
@@ -166,34 +166,41 @@ public class cookingClass
                     else
                     {
                         Order completed = finishOrder();
-                        System.out.println("Successfully completed order: " + completed);
+                        System.out.println("Successfully completed order for: " + completed.getCustomerName());
                     }
                     break;
 
                 case 4:
-                    System.out.print("Enter order description/name: ");
-                    String details = scanner.nextLine();
-                    System.out.print("Enter priority level (integer): ");
-                    if (scanner.hasNextInt())
+                    System.out.print("Enter customer name: ");
+                    String custName = scanner.nextLine();
+                    System.out.print("Enter recipe details: ");
+                    String recipe = scanner.nextLine();
+                    System.out.print("Is this a priority order? (true/false): ");
+                    
+                    boolean isPriority = false;
+                    if (scanner.hasNextBoolean())
                     {
-                        int priority = scanner.nextInt();
-                        scanner.nextLine();
-                        // Using FoodOrder subclass instead of instantiating abstract/interface Order directly
-                        Order newOrder = new FoodOrder(details, priority);
-                        if (queue != null)
+                        isPriority = scanner.nextBoolean();
+                    }
+                    scanner.nextLine();
+
+                    FoodOrder newOrder = new FoodOrder(custName, recipe, isPriority);
+
+                    if (queue != null)
+                    {
+                        boolean offered = queue.offer(newOrder);
+                        if (offered)
                         {
-                            queue.add(newOrder);
-                            System.out.println("Added custom order to queue: " + newOrder);
+                            System.out.println("Added custom order to queue for: " + custName);
                         }
                         else
                         {
-                            System.out.println("Error: Queue reference is null.");
+                            System.out.println("Error: Queue is full (capacity reached).");
                         }
                     }
                     else
                     {
-                        System.out.println("Invalid priority. Order creation canceled.");
-                        scanner.next();
+                        System.out.println("Error: Queue reference is null.");
                     }
                     break;
 
