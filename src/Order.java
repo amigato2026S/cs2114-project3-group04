@@ -76,18 +76,11 @@ public interface Order extends Comparable<Order> {
     public String getCustomerName();
 
     /**
-     * Returns the list of items/toppings associated with the order.
-     * 
-     * @return an ArrayList of String items
-     */
-    public ArrayList<String> getOrderList();
-
-    /**
      * Shows the time left for the order using java.time.Duration.
      * 
      * @return a Duration object representing the remaining time
      */
-    public Duration getTimeLeft();
+    public Duration getTime();
 
     /**
      * Determines if the particular order needs to be made first or if it 
@@ -107,4 +100,12 @@ public interface Order extends Comparable<Order> {
      */
     @Override
     public int compareTo(Order other);
+
+    /**
+     * Returns the recipe associated with the order.
+     * 
+     * @return a String of the recipe.
+     */
+    String getRecipe();
+
 }
