@@ -4,27 +4,21 @@ Model intended to be run in Eclipse IDE.
 Thin view: Test classes can be run as JUnit files.
 
 **Reflection**  
-*What changed from your specification?*  
-Most changes from the test come from Order. Originally it was just going to be Order but we turned it into an interface for FoodOrder to implement.  
-*Did the model really stand alone?*  
-None of the models rely on Main, and test classes work individually as intended.  
-*What happened to your unknowns?*  
-We figured out the time, we figured out most(?) of the cooking side of the game.
-*What doesn't work yet?*  
-I think the Main class isn't fully coherent yet just because some of the model classes need fixing and polishing. We had some issues with github itself so some files are botched and need fixing.
+*How did your design absorb the change?*  
+Our main changes came from cookingClass, which mostly only interacts with FoodOrder. This was mostly anticipated because cookingClass is basically a separate part of the game that the player interacts with, and since the feature is non-trivial it doesn't really mess with any model classes.  
+*Did the change cross the model/view line?*  
+It didn't. As stated above, none of the model classes went through any major changes so the cookingClass didn't have to adapt to anything new. Other changes also didn't interfere with it.  
+*What changed from your D3 plan?*  
+The only change from the D3 plan was just the specifics of the feature we would actually changed. Last week, we weren't so sure with what exactly we would do with cookingClass, so throughout this week we went over what specifically we wanted to change about it so we could make our game more interesting. We ended up going with this feature because it was briefly discussed in our scope, but we weren't sure if we had the time to implement it, but since we had the opportunity we went ahead with it.  
 
 
 **Next Steps**  
-*What is left to finish the MVP?*  
-We just have to make sure the full game actually fully runs and works for the whole time, and make sure all model classes work as intended.  
-*Your change feature.*  
-We didn't clarify much about the Cooking classes. We might change up the way players interact with cooking.
-*Which stretch goals will you attempt?*  
-We will try to work on priority circumstances since ours doesn't really fully work yet and could probably make it better.  
-*What new tests will you need?*  
-We can test Main by just running the code and making sure the game works, but otherwise we'll need to test cases for when we add priority circumstances or change up the cooking.  
-*Who does what?*  
-A lot of the essentials are put down, so instead of Armaan and Nick only working on their own classes we can all pitch in to start focusing on Main, FoodOrder, and Cooking.  
+*What is left for the final build?*  
+
+
+
+
+
 
 **Work Attribution**
 | Class | Author | Progress | GenAI Note |
