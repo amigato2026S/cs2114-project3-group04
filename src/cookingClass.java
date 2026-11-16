@@ -178,7 +178,8 @@ public class cookingClass
                     {
                         int priority = scanner.nextInt();
                         scanner.nextLine();
-                        Order newOrder = new Order(details, priority);
+                        // Using FoodOrder subclass instead of instantiating abstract/interface Order directly
+                        Order newOrder = new FoodOrder(details, priority);
                         if (queue != null)
                         {
                             queue.add(newOrder);
