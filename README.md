@@ -22,7 +22,7 @@ We are committing to FIFO priority tie-breaking and live queue/wait time display
 *What will your 3-minute demo show?*
 We will run all JUnit tests(0:00-0:30), test regular orders and bad inputs in Main(0:30-1:15), add a Priority Order and inspect the live queue via Kitchen Status(1:15-2:15), and serve orders to show priority ordering(2:15-3:00).
 *Who does what?*
-Andrew handles Main class, Armaan fixes FoodORder.compareTo(), Nick updates cookingClass, and Ami handles 3-minute demo.
+Andrew handles Main class, Armaan fixes FoodOrder.compareTo(), Nick updates cookingClass, and Ami handles 3-minute demo.
 
 **Work Attribution**
 | Class | Author | Progress | GenAI Note |
