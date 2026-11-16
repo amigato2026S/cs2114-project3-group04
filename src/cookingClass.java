@@ -1,96 +1,78 @@
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+import java.io.ByteArrayInputStream;
+
 // -------------------------------------------------------------------------
 /**
- *  Write a one-sentence summary of your class here.
- *  Follow it with additional details about its purpose, what abstraction
- *  it represents, and how to use it.
+ * Test class for cookingClass and its interactive console features.
  * 
- *  @author Nicholas Song
- *  @version Nov 9, 2026
+ * @author Nicholas Song
+ * @version Nov 9, 2026
  */
-public class cookingClass
+public class cookingClassTest
 {
-    //~ Fields ................................................................
+    private cookingClass kitchen;
+    private PQueue<Order> queue;
+    private Order order1;
+    private Order order2;
 
-    private Order currentOrder;
-    private boolean isBusy;
-
-
-    //~ Constructors ..........................................................
-
-    // ----------------------------------------------------------
-    /**
-     * Create a new Cooking object with no active order and isBusy set to false.
-     */
-    public cookingClass()
+    @Before
+    public void setUp()
     {
-        this.currentOrder = null;
-        this.isBusy = false;
+        kitchen = new cookingClass();
+        queue = new PQueue<Order>();
+        order1 = new Order("Burger", 1);
+        order2 = new Order("Steak", 5);
     }
 
-
-    //~Public  Methods ........................................................
-
-    // ----------------------------------------------------------
-    /**
-     * Pulls the highest priority order from the queue and sets it as the
-     * active currentOrder, changing isBusy to true.
-     * 
-     * @param queue the priority queue of pending orders
-     */
-    public void cookNextOrder(PQueue<Order> queue)
+    @Test
+    public void testInitialState()
     {
-        if (queue == null || queue.isEmpty())
-        {
-            return;
-        }
-
-        Order nextOrder = queue.poll();
-        if (nextOrder != null)
-        {
-            this.currentOrder = nextOrder;
-            this.isBusy = true;
-        }
+        assertFalse(kitchen.checkStatus());
+        assertNull(kitchen.getCurrentOrder());
     }
 
-
-    // ----------------------------------------------------------
-    /**
-     * Completes the current order, returns the finished Order object,
-     * sets currentOrder to null, and sets isBusy back to false.
-     * 
-     * @return the completed Order object, or null if no order was active
-     */
-    public Order finishOrder()
+    @Test
+    public void testCookNextOrder()
     {
-        Order finished = this.currentOrder;
-        this.currentOrder = null;
-        this.isBusy = false;
-        return finished;
+        queue.add(order1);
+        queue.add(order2);
+
+        kitchen.cookNextOrder(queue);
+        assertTrue(kitchen.checkStatus());
+        assertEquals(order1, kitchen.getCurrentOrder());
     }
 
-
-    // ----------------------------------------------------------
-    /**
-     * Returns the current boolean value of isBusy to let the system know
-     * if the kitchen can take a new order.
-     * 
-     * @return true if the kitchen is busy cooking an order, false otherwise
-     */
-    public boolean checkStatus()
+    @Test
+    public void testFinishOrder()
     {
-        return this.isBusy;
+        queue.add(order1);
+        kitchen.cookNextOrder(queue);
+
+        Order finished = kitchen.finishOrder();
+        assertEquals(order1, finished);
+        assertFalse(kitchen.checkStatus());
+        assertNull(kitchen.getCurrentOrder());
     }
 
-
-    // ----------------------------------------------------------
-    /**
-     * Returns the currently active order being cooked in the kitchen.
-     * 
-     * @return the current Order, or null if the kitchen is idle
-     */
-    public Order getCurrentOrder()
+    @Test
+    public void testCookWithEmptyQueue()
     {
-        return this.currentOrder;
+        kitchen.cookNextOrder(queue);
+        assertFalse(kitchen.checkStatus());
+        assertNull(kitchen.getCurrentOrder());
     }
 
+    @Test
+    public void testInteractiveSessionAddAndCheckStatus()
+    {
+        // Simulate user inputs: Option 1 (Check Status), Option 4 (Add Order: Salad, priority 2), Option 1, Option 5 (Exit)
+        String simulatedInput = "1\n4\nSalad\n2\n1\n5\n";
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+
+        kitchen.runInteractiveSession(queue);
+
+        assertFalse(queue.isEmpty());
+    }
 }
