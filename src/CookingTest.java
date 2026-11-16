@@ -1,6 +1,6 @@
-import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 
 // -------------------------------------------------------------------------
@@ -10,45 +10,45 @@ import java.io.ByteArrayInputStream;
  * @author Nicholas Song
  * @version Nov 9, 2026
  */
-public class CookingTest
+class CookingTest
 {
     private cookingClass kitchen;
     private PQueue<Order> queue;
-    private Order order1;
-    private Order order2;
+    private FoodOrder order1;
+    private FoodOrder order2;
 
-    @Before
-    public void setUp()
+    @BeforeEach
+    void setUp()
     {
         kitchen = new cookingClass();
-        queue = new PQueue<Order>();
-        // Using FoodOrder concrete implementation
-        order1 = new FoodOrder("Burger", 1);
-        order2 = new FoodOrder("Steak", 5);
+        queue = new PQueue<>();
+        
+        order1 = new FoodOrder("Alice", "Burger", false);
+        order2 = new FoodOrder("Bob", "Steak", true);
     }
 
     @Test
-    public void testInitialState()
+    void testInitialState()
     {
         assertFalse(kitchen.checkStatus());
         assertNull(kitchen.getCurrentOrder());
     }
 
     @Test
-    public void testCookNextOrder()
+    void testCookNextOrder()
     {
-        queue.add(order1);
-        queue.add(order2);
+        queue.offer(order1);
+        queue.offer(order2);
 
         kitchen.cookNextOrder(queue);
         assertTrue(kitchen.checkStatus());
-        assertEquals(order1, kitchen.getCurrentOrder());
+        assertEquals(order2, kitchen.getCurrentOrder()); // Priority order comes first in PQueue
     }
 
     @Test
-    public void testFinishOrder()
+    void testFinishOrder()
     {
-        queue.add(order1);
+        queue.offer(order1);
         kitchen.cookNextOrder(queue);
 
         Order finished = kitchen.finishOrder();
@@ -58,7 +58,7 @@ public class CookingTest
     }
 
     @Test
-    public void testCookWithEmptyQueue()
+    void testCookWithEmptyQueue()
     {
         kitchen.cookNextOrder(queue);
         assertFalse(kitchen.checkStatus());
@@ -66,9 +66,10 @@ public class CookingTest
     }
 
     @Test
-    public void testInteractiveSessionAddAndCheckStatus()
+    void testInteractiveSessionAddAndCheckStatus()
     {
-        String simulatedInput = "1\n4\nSalad\n2\n1\n5\n";
+        // Simulates selecting option 1, then option 4 (adding Charlie, Pasta, false), then option 1, then option 5 (exit)
+        String simulatedInput = "1\n4\nCharlie\nPasta\nfalse\n1\n5\n";
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
         kitchen.runInteractiveSession(queue);
