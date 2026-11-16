@@ -21,7 +21,7 @@ FoodOrder.compareTo() currently breaks priority ties alphabetically instead of b
 **Next Steps**  
 * *What is left for the final build?*
 
-Fix FoodOrder.compareTo() to sort same-priority order in FIFO order, add timed cooking in cookingClass.
+Fix FoodOrder.compareTo() to sort same-priority order in FIFO order, add timed cooking in cookingClass. We also need to clean up the view in console so the kitchen status looks much less clunky.  
 * *Which stretch goals are you committing to, and which are you dropping?*
 
 We are committing to FIFO priority tie-breaking and live queue/wait time display, while dropping multi station cooking and GUI features to keep our console app stable. 
