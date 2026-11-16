@@ -11,6 +11,8 @@ Our main changes came from cookingClass, which mostly only interacts with FoodOr
 It didn't. As stated above, none of the model classes went through any major changes so the cookingClass didn't have to adapt to anything new. Other changes also didn't interfere with it.
 *What changed from your D3 plan?*
 The only change from the D3 plan was just the specifics of the feature we would actually changed. Last week, we weren't so sure with what exactly we would do with cookingClass, so throughout this week we went over what specifically we wanted to change about it so we could make our game more interesting. We ended up going with this feature because it was briefly discussed in our scope, but we weren't sure if we had the time to implement it, but since we had the opportunity we went ahead with it.
+*What doesn't work yet?*
+FoodOrder.compareTo() currently breaks priority ties alphabetically instead of by order time(FIFO)
 
 **Next Steps**  
 *What is left for the final build?*
