@@ -16,15 +16,15 @@ It didn't. As stated above, none of the model classes went through any major cha
 The only change from the D3 plan was just the specifics of the feature we would actually changed. Last week, we weren't so sure with what exactly we would do with cookingClass, so throughout this week we went over what specifically we wanted to change about it so we could make our game more interesting. We ended up going with this feature because it was briefly discussed in our scope, but we weren't sure if we had the time to implement it, but since we had the opportunity we went ahead with it.
 * *What doesn't work yet?*
 
-FoodOrder.compareTo() currently breaks priority ties alphabetically instead of by order time(FIFO)
+FoodOrder.compareTo() currently breaks priority ties alphabetically instead of by order time(FIFO). Our cookingClass' new feature also still isn't properly reflected in Main class, so we need to make it so it properly makes it into the view.
 
 **Next Steps**  
 * *What is left for the final build?*
 
-Fix FoodOrder.compareTo() to sort same-priority order in FIFO order, add timed cooking in cookingClass
+Fix FoodOrder.compareTo() to sort same-priority order in FIFO order, add timed cooking in cookingClass.
 * *Which stretch goals are you committing to, and which are you dropping?*
 
-We are committing to FIFO priority tie-breaking and live queue/wait time display, while dropping multi station cooking and GUI features to keep our console app stable.
+We are committing to FIFO priority tie-breaking and live queue/wait time display, while dropping multi station cooking and GUI features to keep our console app stable. 
 * *What will your 3-minute demo show?*
 
 We will run all JUnit tests(0:00-0:30), test regular orders and bad inputs in Main(0:30-1:15), add a Priority Order and inspect the live queue via Kitchen Status(1:15-2:15), and serve orders to show priority ordering(2:15-3:00).
