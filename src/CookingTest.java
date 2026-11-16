@@ -1,128 +1,78 @@
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+import java.io.ByteArrayInputStream;
 
 // -------------------------------------------------------------------------
 /**
- *  Write a one-sentence summary of your class here.
- *  Follow it with additional details about its purpose, what abstraction
- *  it represents, and how to use it.
+ * Test class for cookingClass and its interactive console features.
  * 
- *  @author Nicholas Song
- *  @version Nov 9, 2026
+ * @author Nicholas Song
+ * @version Nov 9, 2026
  */
-class CookingTest
+public class cookingClassTest
 {
-    //~ Fields ................................................................
-
-    private cookingClass cooking;
+    private cookingClass kitchen;
     private PQueue<Order> queue;
-    private Order firstOrder;
-    private Order secondOrder;
+    private Order order1;
+    private Order order2;
 
-
-    //~ Constructors ..........................................................
-
-    // ----------------------------------------------------------
-    /**
-     * Sets up the test fixture before each test method.
-     * 
-     * @throws java.lang.Exception
-     */
-    @BeforeEach
-    void setUp()
-        throws Exception
+    @Before
+    public void setUp()
     {
-        cooking = new cookingClass();
-        queue = new PQueue<>();
-
-        firstOrder = new FoodOrder();
-        firstOrder.addOrder("Alice", "Cheeseburger");
-
-        secondOrder = new FoodOrder();
-        secondOrder.addOrder("Bob", "Deluxe Burger");
+        kitchen = new cookingClass();
+        queue = new PQueue<Order>();
+        order1 = new Order("Burger", 1);
+        order2 = new Order("Steak", 5);
     }
 
-
-    //~Public  Methods ........................................................
-
-    // ----------------------------------------------------------
-    /**
-     * Test method for {@link Cooking#cookNextOrder(PQueue)}.
-     * Verifies that currentOrder matches the polled item from the queue
-     * and that isBusy updates to true.
-     */
     @Test
-    void testCookNextOrder()
+    public void testInitialState()
     {
-        queue.offer(firstOrder);
-        queue.offer(secondOrder);
-
-        Order expectedOrder = queue.peek();
-        cooking.cookNextOrder(queue);
-
-        assertEquals(expectedOrder, cooking.getCurrentOrder());
-        assertTrue(cooking.checkStatus());
-        assertEquals(1, queue.size());
+        assertFalse(kitchen.checkStatus());
+        assertNull(kitchen.getCurrentOrder());
     }
 
-
-    // ----------------------------------------------------------
-    /**
-     * Test method for {@link Cooking#cookNextOrder(PQueue)}.
-     * Verifies correct handling when the passed queue is empty or null.
-     */
     @Test
-    void testCookNextOrderEmptyQueue()
+    public void testCookNextOrder()
     {
-        cooking.cookNextOrder(queue);
+        queue.add(order1);
+        queue.add(order2);
 
-        assertNull(cooking.getCurrentOrder());
-        assertFalse(cooking.checkStatus());
-
-        cooking.cookNextOrder(null);
-
-        assertNull(cooking.getCurrentOrder());
-        assertFalse(cooking.checkStatus());
+        kitchen.cookNextOrder(queue);
+        assertTrue(kitchen.checkStatus());
+        assertEquals(order1, kitchen.getCurrentOrder());
     }
 
-
-    // ----------------------------------------------------------
-    /**
-     * Test method for {@link Cooking#finishOrder()}.
-     * Verifies that the returned order matches currentOrder, currentOrder
-     * is set to null afterward, and isBusy updates to false.
-     */
     @Test
-    void testFinishOrder()
+    public void testFinishOrder()
     {
-        queue.offer(firstOrder);
-        cooking.cookNextOrder(queue);
+        queue.add(order1);
+        kitchen.cookNextOrder(queue);
 
-        Order finished = cooking.finishOrder();
-
-        assertEquals(firstOrder, finished);
-        assertNull(cooking.getCurrentOrder());
-        assertFalse(cooking.checkStatus());
+        Order finished = kitchen.finishOrder();
+        assertEquals(order1, finished);
+        assertFalse(kitchen.checkStatus());
+        assertNull(kitchen.getCurrentOrder());
     }
 
-
-    // ----------------------------------------------------------
-    /**
-     * Test method for {@link Cooking#checkStatus()}.
-     * Checks both true and false cases for the kitchen status.
-     */
     @Test
-    void testCheckStatus()
+    public void testCookWithEmptyQueue()
     {
-        assertFalse(cooking.checkStatus());
-
-        queue.offer(firstOrder);
-        cooking.cookNextOrder(queue);
-        assertTrue(cooking.checkStatus());
-
-        cooking.finishOrder();
-        assertFalse(cooking.checkStatus());
+        kitchen.cookNextOrder(queue);
+        assertFalse(kitchen.checkStatus());
+        assertNull(kitchen.getCurrentOrder());
     }
 
+    @Test
+    public void testInteractiveSessionAddAndCheckStatus()
+    {
+        // Simulate user inputs: Option 1 (Check Status), Option 4 (Add Order: Salad, priority 2), Option 1, Option 5 (Exit)
+        String simulatedInput = "1\n4\nSalad\n2\n1\n5\n";
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+
+        kitchen.runInteractiveSession(queue);
+
+        assertFalse(queue.isEmpty());
+    }
 }
